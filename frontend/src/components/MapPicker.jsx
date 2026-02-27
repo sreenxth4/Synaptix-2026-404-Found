@@ -18,6 +18,7 @@ function ClickHandler({ onLocationChange }) {
   return null
 }
 
+// Default coordinates center on India (20.5937°N, 78.9629°E)
 export default function MapPicker({ onChange, initialLat = 20.5937, initialLng = 78.9629 }) {
   const [position, setPosition] = useState(null)
 
