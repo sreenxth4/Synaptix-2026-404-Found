@@ -1,0 +1,77 @@
+{
+  "nav": {
+    "dashboard": "डैशबोर्ड",
+    "report": "समस्या रिपोर्ट करें",
+    "myIssues": "मेरी समस्याएं",
+    "leaderboard": "लीडरबोर्ड",
+    "logout": "लॉग आउट",
+    "escalations": "एस्केलेशन",
+    "departments": "विभाग",
+    "queue": "समस्या कतार"
+  },
+  "issue": {
+    "title": "शीर्षक",
+    "description": "विवरण",
+    "category": "श्रेणी",
+    "status": "स्थिति",
+    "priority": "प्राथमिकता",
+    "location": "स्थान",
+    "createdAt": "बनाया गया",
+    "upvotes": "अपवोट",
+    "reports": "रिपोर्ट"
+  },
+  "auth": {
+    "login": "लॉग इन",
+    "register": "पंजीकरण",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "name": "पूरा नाम",
+    "role": "भूमिका",
+    "department": "विभाग",
+    "language": "पसंदीदा भाषा",
+    "noAccount": "खाता नहीं है?",
+    "hasAccount": "पहले से खाता है?"
+  },
+  "common": {
+    "submit": "सबमिट करें",
+    "cancel": "रद्द करें",
+    "loading": "लोड हो रहा है...",
+    "save": "सहेजें",
+    "delete": "हटाएं",
+    "edit": "संपादित करें",
+    "view": "देखें",
+    "close": "बंद करें",
+    "filter": "फ़िल्टर",
+    "all": "सभी",
+    "search": "खोजें"
+  },
+  "priority": {
+    "low": "कम",
+    "medium": "मध्यम",
+    "high": "उच्च",
+    "critical": "गंभीर"
+  },
+  "status": {
+    "open": "खुली",
+    "in_progress": "प्रगति में",
+    "resolved": "हल हो गई"
+  },
+  "citizen": {
+    "welcome": "वापस स्वागत है",
+    "points": "नागरिक अंक",
+    "totalIssues": "कुल रिपोर्ट की गई समस्याएं",
+    "resolvedIssues": "हल की गई समस्याएं",
+    "reportNew": "नई समस्या रिपोर्ट करें",
+    "badge": {
+      "civicHero": "नागरिक नायक",
+      "activeReporter": "सक्रिय रिपोर्टर",
+      "newcomer": "नया सदस्य"
+    }
+  },
+  "admin": {
+    "totalIssues": "कुल समस्याएं",
+    "resolvedIssues": "हल की गईं",
+    "escalatedIssues": "एस्केलेट की गईं",
+    "activeCitizens": "सक्रिय नागरिक"
+  }
+}

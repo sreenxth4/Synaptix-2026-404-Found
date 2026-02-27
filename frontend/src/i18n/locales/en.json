@@ -1,0 +1,77 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "report": "Report Issue",
+    "myIssues": "My Issues",
+    "leaderboard": "Leaderboard",
+    "logout": "Logout",
+    "escalations": "Escalations",
+    "departments": "Departments",
+    "queue": "Issue Queue"
+  },
+  "issue": {
+    "title": "Title",
+    "description": "Description",
+    "category": "Category",
+    "status": "Status",
+    "priority": "Priority",
+    "location": "Location",
+    "createdAt": "Created At",
+    "upvotes": "Upvotes",
+    "reports": "Reports"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "name": "Full Name",
+    "role": "Role",
+    "department": "Department",
+    "language": "Preferred Language",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?"
+  },
+  "common": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "loading": "Loading...",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "close": "Close",
+    "filter": "Filter",
+    "all": "All",
+    "search": "Search"
+  },
+  "priority": {
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "critical": "Critical"
+  },
+  "status": {
+    "open": "Open",
+    "in_progress": "In Progress",
+    "resolved": "Resolved"
+  },
+  "citizen": {
+    "welcome": "Welcome back",
+    "points": "Civic Points",
+    "totalIssues": "Total Issues Reported",
+    "resolvedIssues": "Issues Resolved",
+    "reportNew": "Report New Issue",
+    "badge": {
+      "civicHero": "Civic Hero",
+      "activeReporter": "Active Reporter",
+      "newcomer": "Newcomer"
+    }
+  },
+  "admin": {
+    "totalIssues": "Total Issues",
+    "resolvedIssues": "Resolved",
+    "escalatedIssues": "Escalated",
+    "activeCitizens": "Active Citizens"
+  }
+}
