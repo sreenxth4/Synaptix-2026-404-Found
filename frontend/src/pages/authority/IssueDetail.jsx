@@ -18,6 +18,7 @@ export default function AuthorityIssueDetail() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [issue, setIssue] = useState(null)
+  const [timeline, setTimeline] = useState([])
   const [loading, setLoading] = useState(true)
   const [updating, setUpdating] = useState(false)
   const [updateForm, setUpdateForm] = useState({ status: '', note: '' })
@@ -28,6 +29,7 @@ export default function AuthorityIssueDetail() {
       const res = await api.get(`/api/issues/${id}`)
       const issueData = res.data.issue || res.data
       setIssue(issueData)
+      setTimeline(res.data.timeline || [])
       setUpdateForm(f => ({ ...f, status: issueData.status }))
     } catch {
       toast.error('Failed to load issue')
@@ -48,7 +50,7 @@ export default function AuthorityIssueDetail() {
       if (updateForm.note) formData.append('note', updateForm.note)
       if (proof) formData.append('proof_image', proof)
 
-      await api.patch(`/api/issues/${id}/status`, formData, {
+      await api.put(`/api/issues/${id}/status`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
       toast.success('Issue updated successfully!')
@@ -79,7 +81,7 @@ export default function AuthorityIssueDetail() {
           <div className="flex items-start justify-between gap-4 mb-4">
             <h1 className="text-xl font-bold text-gray-800">{issue.title}</h1>
             <div className="flex flex-col gap-2 shrink-0">
-              <PriorityBadge priority={issue.severity || issue.priority} />
+              <PriorityBadge priority={issue.priority_label || issue.severity || issue.priority} />
               <StatusBadge status={issue.status} />
             </div>
           </div>
@@ -139,7 +141,7 @@ export default function AuthorityIssueDetail() {
 
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
           <h2 className="font-bold text-gray-800 mb-4">📋 Status Timeline</h2>
-          <IssueTimeline statusLogs={issue.status_logs || issue.statusLogs || []} />
+          <IssueTimeline statusLogs={timeline} />
         </div>
       </div>
     </div>

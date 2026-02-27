@@ -16,9 +16,9 @@ export default function Escalations() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    api.get('/api/issues/escalated')
+    api.get('/api/admin/escalations')
       .then(r => {
-        const list = r.data.issues || r.data || []
+        const list = r.data.escalations || r.data || []
         const sorted = [...list].sort((a, b) => (b.escalation_count || 0) - (a.escalation_count || 0))
         setIssues(sorted)
       })
@@ -58,7 +58,7 @@ export default function Escalations() {
                     <p className="text-xs text-gray-400 mt-1">{issue.category} · {issue.location_address} · {timeAgo(issue.created_at)}</p>
                   </div>
                   <div className="flex gap-2 shrink-0">
-                    <PriorityBadge priority={issue.severity} />
+                    <PriorityBadge priority={issue.priority_label || issue.severity} />
                     <StatusBadge status={issue.status} />
                   </div>
                 </div>

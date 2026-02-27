@@ -13,6 +13,23 @@ const VALID_CATEGORIES = [
   'public_safety', 'noise', 'building', 'environment', 'other',
 ];
 
+// GET /api/issues/my — current authenticated user's issues
+router.get('/my', authenticate, async (req, res, next) => {
+  try {
+    const result = await query(
+      `SELECT i.*, d.name AS department_name
+       FROM issues i
+       LEFT JOIN departments d ON i.department_id = d.id
+       WHERE i.reporter_id = $1
+       ORDER BY i.created_at DESC`,
+      [req.user.id]
+    );
+    res.json({ issues: result.rows });
+  } catch (err) {
+    next(err);
+  }
+});
+
 // GET /api/issues/categories
 router.get('/categories', (_req, res) => {
   res.json({ categories: VALID_CATEGORIES });

@@ -28,12 +28,12 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     Promise.all([
-      api.get('/api/analytics/overview').catch(() => ({ data: null })),
-      api.get('/api/analytics/departments').catch(() => ({ data: { departments: [] } })),
+      api.get('/api/admin/engagement').catch(() => ({ data: null })),
+      api.get('/api/admin/departments/performance').catch(() => ({ data: { performance: [] } })),
       api.get('/api/issues?limit=100').catch(() => ({ data: { issues: [] } })),
     ]).then(([statsRes, deptRes, issuesRes]) => {
-      setStats(statsRes.data)
-      setDeptStats(deptRes.data.departments || deptRes.data || [])
+      setStats(statsRes.data?.overview || null)
+      setDeptStats(deptRes.data?.performance || deptRes.data || [])
       setIssues(issuesRes.data.issues || issuesRes.data || [])
     }).catch(() => toast.error('Failed to load analytics')).finally(() => setLoading(false))
   }, [])
@@ -51,7 +51,7 @@ export default function AdminDashboard() {
             gradient="bg-gradient-to-br from-green-500 to-green-700" />
           <StatCard label={t('admin.escalatedIssues')} value={stats?.escalated_issues ?? '—'} icon="🚨"
             gradient="bg-gradient-to-br from-red-500 to-red-700" />
-          <StatCard label={t('admin.activeCitizens')} value={stats?.active_citizens ?? '—'} icon="👥"
+          <StatCard label={t('admin.activeCitizens')} value={stats?.total_citizens ?? '—'} icon="👥"
             gradient="bg-gradient-to-br from-purple-500 to-purple-700" />
         </div>
 
@@ -97,7 +97,7 @@ export default function AdminDashboard() {
                           <span className="text-gray-700 font-medium">{dept.resolution_rate?.toFixed(1) || 0}%</span>
                         </div>
                       </td>
-                      <td className="py-3 text-gray-600">{dept.avg_time_hours?.toFixed(1) || 'N/A'}h</td>
+                      <td className="py-3 text-gray-600">{dept.avg_resolution_hours?.toFixed(1) || 'N/A'}h</td>
                     </tr>
                   ))}
                 </tbody>

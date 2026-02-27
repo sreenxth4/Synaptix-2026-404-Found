@@ -15,6 +15,7 @@ export default function CitizenIssueDetail() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [issue, setIssue] = useState(null)
+  const [timeline, setTimeline] = useState([])
   const [loading, setLoading] = useState(true)
   const [upvoting, setUpvoting] = useState(false)
 
@@ -22,6 +23,7 @@ export default function CitizenIssueDetail() {
     try {
       const res = await api.get(`/api/issues/${id}`)
       setIssue(res.data.issue || res.data)
+      setTimeline(res.data.timeline || [])
     } catch {
       toast.error('Failed to load issue')
       navigate('/citizen/my-issues')
@@ -62,7 +64,7 @@ export default function CitizenIssueDetail() {
           <div className="flex items-start justify-between gap-4 mb-4">
             <h1 className="text-xl font-bold text-gray-800 leading-tight">{issue.title}</h1>
             <div className="flex flex-col gap-2 shrink-0">
-              <PriorityBadge priority={issue.severity || issue.priority} />
+              <PriorityBadge priority={issue.priority_label || issue.severity || issue.priority} />
               <StatusBadge status={issue.status} />
             </div>
           </div>
@@ -83,7 +85,7 @@ export default function CitizenIssueDetail() {
           <div className="mt-6 flex items-center gap-4">
             <button onClick={handleUpvote} disabled={upvoting}
               className="flex items-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-60">
-              👍 Upvote ({issue.upvotes || 0})
+              👍 Upvote ({issue.upvotes_count || 0})
             </button>
             {issue.reports_count > 0 && (
               <span className="text-sm text-gray-400">👥 {issue.reports_count} people reported this</span>
@@ -93,7 +95,7 @@ export default function CitizenIssueDetail() {
 
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
           <h2 className="font-bold text-gray-800 mb-4">📋 Status Timeline</h2>
-          <IssueTimeline statusLogs={issue.status_logs || issue.statusLogs || []} />
+          <IssueTimeline statusLogs={timeline} />
         </div>
       </div>
     </div>

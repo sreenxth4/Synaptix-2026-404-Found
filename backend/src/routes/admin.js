@@ -69,7 +69,8 @@ router.get('/engagement', async (req, res, next) => {
          (SELECT ROUND(AVG(civic_points), 2) FROM users WHERE role = 'citizen') AS avg_citizen_points,
          (SELECT COUNT(*) FROM users WHERE role = 'citizen' AND created_at >= NOW() - INTERVAL '30 days') AS new_citizens_30d,
          (SELECT COUNT(*) FROM issues WHERE created_at >= NOW() - INTERVAL '30 days') AS new_issues_30d,
-         (SELECT COUNT(*) FROM issues WHERE status = 'resolved' AND resolved_at >= NOW() - INTERVAL '30 days') AS resolved_30d`
+         (SELECT COUNT(*) FROM issues WHERE status = 'resolved' AND resolved_at >= NOW() - INTERVAL '30 days') AS resolved_30d,
+         (SELECT COUNT(*) FROM issues WHERE escalation_count > 0 OR (sla_deadline IS NOT NULL AND sla_deadline < NOW() AND status != 'resolved')) AS escalated_issues`
     );
 
     const topReporters = await query(
