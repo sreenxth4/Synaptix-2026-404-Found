@@ -253,13 +253,11 @@ resolved_at
 
 ---
 
-## Screenshots
+## Project Status
 
-> _Add screenshots of the app here once the UI is complete._
+✅ **The project is complete.**
 
-| Citizen Dashboard | Issue Map | Admin Analytics |
-|-------------------|-----------|-----------------|
-| _(screenshot)_    | _(screenshot)_ | _(screenshot)_ |
+All features described in the [Features](#features) section are fully implemented. All frontend pages and components build successfully, and all backend routes, services, and scheduled jobs are implemented.
 
 ---
 
