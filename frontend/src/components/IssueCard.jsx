@@ -18,7 +18,7 @@ export default function IssueCard({ issue }) {
       <div className="flex items-start justify-between gap-2 mb-2">
         <h3 className="font-semibold text-gray-800 text-sm leading-tight line-clamp-2">{issue.title}</h3>
         <div className="flex flex-col gap-1 shrink-0">
-          <PriorityBadge priority={issue.severity || issue.priority} />
+          <PriorityBadge priority={issue.priority_label || issue.severity || issue.priority} />
           <StatusBadge status={issue.status} />
         </div>
       </div>
@@ -34,7 +34,7 @@ export default function IssueCard({ issue }) {
         <span>{timeAgo(issue.created_at || issue.createdAt)}</span>
         <div className="flex items-center gap-3">
           {issue.reports_count > 0 && <span>👥 {issue.reports_count} reports</span>}
-          {issue.upvotes > 0 && <span>👍 {issue.upvotes}</span>}
+          {issue.upvotes_count > 0 && <span>👍 {issue.upvotes_count}</span>}
         </div>
       </div>
     </div>

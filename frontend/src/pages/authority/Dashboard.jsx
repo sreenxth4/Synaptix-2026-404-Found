@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../contexts/AuthContext.jsx'
 import Navbar from '../../components/Navbar.jsx'
 import SLATimer from '../../components/SLATimer.jsx'
 import PriorityBadge from '../../components/PriorityBadge.jsx'
 import StatusBadge from '../../components/StatusBadge.jsx'
 import api from '../../api/axios.js'
 import toast from 'react-hot-toast'
-import { useNavigate } from 'react-router-dom'
 
 const PRIORITY_ORDER = { Critical: 0, High: 1, Medium: 2, Low: 3 }
 const STATUS_FILTERS = ['all', 'open', 'in_progress', 'resolved']
@@ -14,24 +15,26 @@ const STATUS_FILTERS = ['all', 'open', 'in_progress', 'resolved']
 export default function AuthorityDashboard() {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const { user } = useAuth()
   const [issues, setIssues] = useState([])
   const [filter, setFilter] = useState('all')
   const [analytics, setAnalytics] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    const deptId = user?.department_id
     Promise.all([
-      api.get('/api/issues/assigned').catch(() => ({ data: { issues: [] } })),
-      api.get('/api/analytics/department').catch(() => ({ data: null })),
+      api.get(deptId ? `/api/issues?department_id=${deptId}` : '/api/issues').catch(() => ({ data: { issues: [] } })),
+      deptId ? api.get(`/api/departments/${deptId}/analytics`).catch(() => ({ data: null })) : Promise.resolve({ data: null }),
     ]).then(([issuesRes, analyticsRes]) => {
       const issueList = issuesRes.data.issues || issuesRes.data || []
       const sorted = [...issueList].sort((a, b) =>
         (PRIORITY_ORDER[a.severity] ?? 4) - (PRIORITY_ORDER[b.severity] ?? 4)
       )
       setIssues(sorted)
-      setAnalytics(analyticsRes.data)
+      setAnalytics(analyticsRes.data?.analytics || null)
     }).catch(() => toast.error('Failed to load dashboard')).finally(() => setLoading(false))
-  }, [])
+  }, [user])
 
   const filtered = filter === 'all' ? issues : issues.filter(i => i.status === filter)
 
@@ -50,7 +53,7 @@ export default function AuthorityDashboard() {
               { label: 'Total Assigned', value: analytics.total_issues, icon: '📋' },
               { label: 'Resolved', value: analytics.resolved_issues, icon: '✅' },
               { label: 'Resolution Rate', value: `${analytics.resolution_rate?.toFixed(1) || 0}%`, icon: '📊' },
-              { label: 'Avg Response', value: `${analytics.avg_time_hours?.toFixed(1) || 0}h`, icon: '⏱️' },
+              { label: 'Avg Response', value: `${analytics.avg_resolution_hours?.toFixed(1) || 0}h`, icon: '⏱️' },
             ].map(s => (
               <div key={s.label} className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
                 <p className="text-gray-400 text-xs">{s.label}</p>
@@ -90,7 +93,7 @@ export default function AuthorityDashboard() {
                   <p className="text-xs text-gray-400 mt-0.5">{issue.category} · {issue.location_address}</p>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
-                  <PriorityBadge priority={issue.severity} />
+                  <PriorityBadge priority={issue.priority_label || issue.severity} />
                   <StatusBadge status={issue.status} />
                   {issue.sla_deadline && <SLATimer sla_deadline={issue.sla_deadline} />}
                 </div>
